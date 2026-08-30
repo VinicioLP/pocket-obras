@@ -15,6 +15,13 @@ import { useFocusEffect } from "@react-navigation/native";
 
 import { supabase } from "../lib/supabase";
 
+import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+import type { MainTabParamList, RootStackParamList } from "../navigation/types";
+
+type BudgetsScreenProps = BottomTabScreenProps<MainTabParamList, "Orcamentos">;
+
 type BudgetStatus =
   | "draft"
   | "sent"
@@ -161,7 +168,10 @@ function calcularTotal(orcamento: Budget) {
   return Math.max(subtotal - desconto, 0);
 }
 
-export function BudgetsScreen() {
+export function BudgetsScreen({ navigation }: BudgetsScreenProps) {
+  const rootNavigation =
+    navigation.getParent<NativeStackNavigationProp<RootStackParamList>>();
+
   const [orcamentos, setOrcamentos] = useState<Budget[]>([]);
 
   const [busca, setBusca] = useState("");
@@ -337,6 +347,17 @@ export function BudgetsScreen() {
           {item.items?.length ?? 0}{" "}
           {(item.items?.length ?? 0) === 1 ? "item" : "itens"}
         </Text>
+
+        <Pressable
+          style={styles.openButton}
+          onPress={() =>
+            rootNavigation?.navigate("OrcamentoFormulario", {
+              budgetId: item.id,
+            })
+          }
+        >
+          <Text style={styles.openButtonText}>Editar orçamento</Text>
+        </Pressable>
       </View>
     );
   }
@@ -359,6 +380,13 @@ export function BudgetsScreen() {
         <Text style={styles.subtitle}>
           Consulte propostas e acompanhe suas situações.
         </Text>
+
+        <Pressable
+          style={styles.newButton}
+          onPress={() => rootNavigation?.navigate("OrcamentoFormulario")}
+        >
+          <Text style={styles.newButtonText}>+ Novo orçamento</Text>
+        </Pressable>
 
         <TextInput
           style={styles.searchInput}
@@ -486,6 +514,21 @@ const styles = StyleSheet.create({
     lineHeight: 21,
     marginTop: 4,
     marginBottom: 20,
+  },
+
+  newButton: {
+    height: 50,
+    backgroundColor: "#17a398",
+    borderRadius: 14,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 12,
+  },
+
+  newButtonText: {
+    color: "#ffffff",
+    fontSize: 15,
+    fontWeight: "800",
   },
 
   searchInput: {
@@ -680,5 +723,21 @@ const styles = StyleSheet.create({
     lineHeight: 21,
     textAlign: "center",
     marginTop: 8,
+  },
+
+  openButton: {
+    height: 42,
+    borderWidth: 1,
+    borderColor: "#17a398",
+    borderRadius: 11,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 14,
+  },
+
+  openButtonText: {
+    color: "#137c74",
+    fontSize: 14,
+    fontWeight: "800",
   },
 });

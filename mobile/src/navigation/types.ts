@@ -20,4 +20,10 @@ export type RootStackParamList = {
         serviceId?: string;
       }
     | undefined;
+
+  OrcamentoFormulario:
+    | {
+        budgetId?: string;
+      }
+    | undefined;
 };

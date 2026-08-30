@@ -11,6 +11,7 @@ import { ProfileScreen } from "../screens/ProfileScreen";
 import { ServicesScreen } from "../screens/ServicesScreen";
 import { ServiceFormScreen } from "../screens/ServiceFormScreen";
 import { BudgetsScreen } from "../screens/BudgetsScreen";
+import { BudgetFormScreen } from "../screens/BudgetFormScreen";
 
 import type { MainTabParamList, RootStackParamList } from "./types";
 
@@ -179,6 +180,16 @@ export function AppNavigator({ session }: AppNavigatorProps) {
           component={ServiceFormScreen}
           options={({ route }) => ({
             title: route.params?.serviceId ? "Editar serviço" : "Novo serviço",
+          })}
+        />
+
+        <RootStack.Screen
+          name="OrcamentoFormulario"
+          component={BudgetFormScreen}
+          options={({ route }) => ({
+            title: route.params?.budgetId
+              ? "Editar orçamento"
+              : "Novo orçamento",
           })}
         />
       </RootStack.Navigator>
