@@ -5,11 +5,22 @@ import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 
 import type { MainTabParamList } from "../navigation/types";
 
+import { useNavigation } from "@react-navigation/native";
+
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+import type { RootStackParamList } from "../navigation/types";
+
 type HomeScreenProps = BottomTabScreenProps<MainTabParamList, "Inicio"> & {
   session: Session;
 };
 
 export function HomeScreen({ session, navigation }: HomeScreenProps) {
+  const rootNavigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>().getParent<
+      NativeStackNavigationProp<RootStackParamList>
+    >();
+
   return (
     <SafeAreaView style={styles.safeArea} edges={["top"]}>
       <View style={styles.container}>
@@ -50,6 +61,13 @@ export function HomeScreen({ session, navigation }: HomeScreenProps) {
           <Text style={styles.cardDescription}>
             Organize os serviços utilizados nos orçamentos.
           </Text>
+        </Pressable>
+
+        <Pressable
+          style={styles.financeButton}
+          onPress={() => rootNavigation?.navigate("Cobrancas")}
+        >
+          <Text style={styles.financeButtonText}>Abrir financeiro</Text>
         </Pressable>
       </View>
     </SafeAreaView>
@@ -108,5 +126,19 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 21,
     marginTop: 6,
+  },
+
+  financeButton: {
+    backgroundColor: "#17a398",
+    borderRadius: 14,
+    paddingHorizontal: 24,
+    paddingVertical: 15,
+    marginTop: 20,
+  },
+
+  financeButtonText: {
+    color: "#ffffff",
+    fontSize: 16,
+    fontWeight: "800",
   },
 });

@@ -39,4 +39,7 @@ export type RootStackParamList = {
   OrcamentoDetalhes: {
     budgetId: string;
   };
+
+  Cobrancas: undefined;
+  CobrancaFormulario: undefined;
 };
