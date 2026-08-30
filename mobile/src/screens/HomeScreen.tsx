@@ -32,6 +32,17 @@ export function HomeScreen({ session, navigation }: HomeScreenProps) {
 
         <Pressable
           style={styles.card}
+          onPress={() => navigation.navigate("Orcamentos")}
+        >
+          <Text style={styles.cardTitle}>Orçamentos</Text>
+
+          <Text style={styles.cardDescription}>
+            Crie propostas e acompanhe aprovações.
+          </Text>
+        </Pressable>
+
+        <Pressable
+          style={styles.card}
           onPress={() => navigation.navigate("Servicos")}
         >
           <Text style={styles.cardTitle}>Serviços</Text>

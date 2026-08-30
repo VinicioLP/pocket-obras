@@ -1,6 +1,7 @@
 export type MainTabParamList = {
   Inicio: undefined;
   Clientes: undefined;
+  Orcamentos: undefined;
   Servicos: undefined;
   Perfil: undefined;
 };

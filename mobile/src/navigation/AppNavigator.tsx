@@ -10,6 +10,7 @@ import { HomeScreen } from "../screens/HomeScreen";
 import { ProfileScreen } from "../screens/ProfileScreen";
 import { ServicesScreen } from "../screens/ServicesScreen";
 import { ServiceFormScreen } from "../screens/ServiceFormScreen";
+import { BudgetsScreen } from "../screens/BudgetsScreen";
 
 import type { MainTabParamList, RootStackParamList } from "./types";
 
@@ -37,6 +38,11 @@ const tabIcons = {
     active: "person",
     inactive: "person-outline",
   },
+
+  Orcamentos: {
+    active: "document-text",
+    inactive: "document-text-outline",
+  },
 } as const;
 
 type MainTabsProps = {
@@ -57,7 +63,7 @@ function MainTabs({ session }: MainTabsProps) {
         tabBarHideOnKeyboard: true,
 
         tabBarLabelStyle: {
-          fontSize: 12,
+          fontSize: 11,
           fontWeight: "700",
         },
 
@@ -98,6 +104,14 @@ function MainTabs({ session }: MainTabsProps) {
       </Tab.Screen>
 
       <Tab.Screen name="Clientes" component={ClientsScreen} />
+
+      <Tab.Screen
+        name="Orcamentos"
+        component={BudgetsScreen}
+        options={{
+          tabBarLabel: "Orçamentos",
+        }}
+      />
 
       <Tab.Screen
         name="Servicos"
