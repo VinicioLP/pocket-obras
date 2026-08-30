@@ -13,7 +13,14 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useFocusEffect } from "@react-navigation/native";
 
+import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+import type { MainTabParamList, RootStackParamList } from "../navigation/types";
+
 import { supabase } from "../lib/supabase";
+
+type ServicesScreenProps = BottomTabScreenProps<MainTabParamList, "Servicos">;
 
 type Service = {
   id: string;
@@ -35,7 +42,10 @@ function formatarMoeda(valor: number) {
   });
 }
 
-export function ServicesScreen() {
+export function ServicesScreen({ navigation }: ServicesScreenProps) {
+  const rootNavigation =
+    navigation.getParent<NativeStackNavigationProp<RootStackParamList>>();
+
   const [servicos, setServicos] = useState<Service[]>([]);
 
   const [busca, setBusca] = useState("");
@@ -241,22 +251,36 @@ export function ServicesScreen() {
             </Text>
           </View>
 
-          <Pressable
-            style={[
-              styles.statusButton,
-              estaAlterando && styles.buttonDisabled,
-            ]}
-            onPress={() => confirmarAlteracao(item)}
-            disabled={estaAlterando}
-          >
-            {estaAlterando ? (
-              <ActivityIndicator size="small" color="#16324f" />
-            ) : (
-              <Text style={styles.statusButtonText}>
-                {item.active ? "Arquivar" : "Reativar"}
-              </Text>
-            )}
-          </Pressable>
+          <View style={styles.cardActions}>
+            <Pressable
+              style={styles.editButton}
+              onPress={() =>
+                rootNavigation?.navigate("ServicoFormulario", {
+                  serviceId: item.id,
+                })
+              }
+              disabled={estaAlterando}
+            >
+              <Text style={styles.editButtonText}>Editar</Text>
+            </Pressable>
+
+            <Pressable
+              style={[
+                styles.statusButton,
+                estaAlterando && styles.buttonDisabled,
+              ]}
+              onPress={() => confirmarAlteracao(item)}
+              disabled={estaAlterando}
+            >
+              {estaAlterando ? (
+                <ActivityIndicator size="small" color="#16324f" />
+              ) : (
+                <Text style={styles.statusButtonText}>
+                  {item.active ? "Arquivar" : "Reativar"}
+                </Text>
+              )}
+            </Pressable>
+          </View>
         </View>
       </View>
     );
@@ -280,6 +304,13 @@ export function ServicesScreen() {
         <Text style={styles.subtitle}>
           Serviços utilizados na criação dos orçamentos.
         </Text>
+
+        <Pressable
+          style={styles.newButton}
+          onPress={() => rootNavigation?.navigate("ServicoFormulario")}
+        >
+          <Text style={styles.newButtonText}>+ Novo serviço</Text>
+        </Pressable>
 
         <TextInput
           style={styles.searchInput}
@@ -417,6 +448,21 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
 
+  newButton: {
+    height: 50,
+    backgroundColor: "#17a398",
+    borderRadius: 14,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 12,
+  },
+
+  newButtonText: {
+    color: "#ffffff",
+    fontSize: 15,
+    fontWeight: "800",
+  },
+
   searchInput: {
     height: 50,
     backgroundColor: "#ffffff",
@@ -530,6 +576,28 @@ const styles = StyleSheet.create({
     borderTopColor: "#edf1f2",
     paddingTop: 14,
     marginTop: 16,
+  },
+
+  cardActions: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
+  editButton: {
+    minHeight: 38,
+    borderWidth: 1,
+    borderColor: "#17a398",
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 12,
+    marginRight: 8,
+  },
+
+  editButtonText: {
+    color: "#137c74",
+    fontSize: 13,
+    fontWeight: "700",
   },
 
   statusBadge: {

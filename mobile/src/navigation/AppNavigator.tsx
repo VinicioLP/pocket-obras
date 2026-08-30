@@ -9,6 +9,7 @@ import { ClientsScreen } from "../screens/ClientsScreen";
 import { HomeScreen } from "../screens/HomeScreen";
 import { ProfileScreen } from "../screens/ProfileScreen";
 import { ServicesScreen } from "../screens/ServicesScreen";
+import { ServiceFormScreen } from "../screens/ServiceFormScreen";
 
 import type { MainTabParamList, RootStackParamList } from "./types";
 
@@ -156,6 +157,14 @@ export function AppNavigator({ session }: AppNavigatorProps) {
           component={ClientFormScreen}
           options={({ route }) => ({
             title: route.params?.clientId ? "Editar cliente" : "Novo cliente",
+          })}
+        />
+
+        <RootStack.Screen
+          name="ServicoFormulario"
+          component={ServiceFormScreen}
+          options={({ route }) => ({
+            title: route.params?.serviceId ? "Editar serviço" : "Novo serviço",
           })}
         />
       </RootStack.Navigator>

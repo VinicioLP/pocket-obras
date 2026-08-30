@@ -13,4 +13,10 @@ export type RootStackParamList = {
         clientId?: string;
       }
     | undefined;
+
+  ServicoFormulario:
+    | {
+        serviceId?: string;
+      }
+    | undefined;
 };
