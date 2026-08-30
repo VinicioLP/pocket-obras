@@ -349,14 +349,14 @@ export function BudgetsScreen({ navigation }: BudgetsScreenProps) {
         </Text>
 
         <Pressable
-          style={styles.openButton}
+          style={styles.detailsButton}
           onPress={() =>
-            rootNavigation?.navigate("OrcamentoFormulario", {
+            rootNavigation?.navigate("OrcamentoDetalhes", {
               budgetId: item.id,
             })
           }
         >
-          <Text style={styles.openButtonText}>Editar orçamento</Text>
+          <Text style={styles.detailsButtonText}>Ver orçamento</Text>
         </Pressable>
       </View>
     );
@@ -725,19 +725,18 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
 
-  openButton: {
-    height: 42,
-    borderWidth: 1,
-    borderColor: "#17a398",
-    borderRadius: 11,
+  detailsButton: {
+    height: 48,
+    backgroundColor: "#16324f",
+    borderRadius: 12,
     alignItems: "center",
     justifyContent: "center",
     marginTop: 14,
   },
 
-  openButtonText: {
-    color: "#137c74",
-    fontSize: 14,
+  detailsButtonText: {
+    color: "#ffffff",
+    fontSize: 15,
     fontWeight: "800",
   },
 });

@@ -12,6 +12,9 @@ import { ServicesScreen } from "../screens/ServicesScreen";
 import { ServiceFormScreen } from "../screens/ServiceFormScreen";
 import { BudgetsScreen } from "../screens/BudgetsScreen";
 import { BudgetFormScreen } from "../screens/BudgetFormScreen";
+import { BudgetItemsScreen } from "../screens/BudgetItemsScreen";
+import { BudgetItemFormScreen } from "../screens/BudgetItemFormScreen";
+import { BudgetDetailsScreen } from "../screens/BudgetDetailsScreen";
 
 import type { MainTabParamList, RootStackParamList } from "./types";
 
@@ -191,6 +194,30 @@ export function AppNavigator({ session }: AppNavigatorProps) {
               ? "Editar orçamento"
               : "Novo orçamento",
           })}
+        />
+
+        <RootStack.Screen
+          name="OrcamentoItens"
+          component={BudgetItemsScreen}
+          options={{
+            title: "Itens do orçamento",
+          }}
+        />
+
+        <RootStack.Screen
+          name="OrcamentoItemFormulario"
+          component={BudgetItemFormScreen}
+          options={({ route }) => ({
+            title: route.params.itemId ? "Editar item" : "Adicionar serviço",
+          })}
+        />
+
+        <RootStack.Screen
+          name="OrcamentoDetalhes"
+          component={BudgetDetailsScreen}
+          options={{
+            title: "Detalhes do orçamento",
+          }}
         />
       </RootStack.Navigator>
     </NavigationContainer>

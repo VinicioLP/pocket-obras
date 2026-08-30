@@ -26,4 +26,17 @@ export type RootStackParamList = {
         budgetId?: string;
       }
     | undefined;
+
+  OrcamentoItens: {
+    budgetId: string;
+  };
+
+  OrcamentoItemFormulario: {
+    budgetId: string;
+    itemId?: string;
+  };
+
+  OrcamentoDetalhes: {
+    budgetId: string;
+  };
 };
