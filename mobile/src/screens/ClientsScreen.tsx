@@ -14,15 +14,12 @@ import {
 } from "react-native";
 
 import { useFocusEffect } from "@react-navigation/native";
-import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-
+import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { supabase } from "../lib/supabase";
-import type { RootStackParamList } from "../navigation/types";
+import type { MainTabParamList, RootStackParamList } from "../navigation/types";
 
-type ClientsScreenProps = NativeStackScreenProps<
-  RootStackParamList,
-  "Clientes"
->;
+type ClientsScreenProps = BottomTabScreenProps<MainTabParamList, "Clientes">;
 
 type ClientListItem = {
   id: string;
@@ -45,6 +42,9 @@ function normalizarTexto(valor: string | null) {
 }
 
 export function ClientsScreen({ navigation }: ClientsScreenProps) {
+  const rootNavigation =
+    navigation.getParent<NativeStackNavigationProp<RootStackParamList>>();
+
   const [clientes, setClientes] = useState<ClientListItem[]>([]);
 
   const [busca, setBusca] = useState("");
@@ -135,11 +135,11 @@ export function ClientsScreen({ navigation }: ClientsScreenProps) {
   }, [busca, clientes, filtroStatus]);
 
   function abrirCadastro() {
-    navigation.navigate("ClienteFormulario");
+    rootNavigation?.navigate("ClienteFormulario");
   }
 
   function abrirEdicao(clientId: string) {
-    navigation.navigate("ClienteFormulario", {
+    rootNavigation?.navigate("ClienteFormulario", {
       clientId,
     });
   }

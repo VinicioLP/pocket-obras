@@ -16,6 +16,7 @@ import {
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import { supabase } from "../lib/supabase";
+
 import type { RootStackParamList } from "../navigation/types";
 
 type ClientFormScreenProps = NativeStackScreenProps<
@@ -33,10 +34,7 @@ function emailValido(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-export function ClientFormScreen({
-  navigation,
-  route,
-}: ClientFormScreenProps) {
+export function ClientFormScreen({ navigation, route }: ClientFormScreenProps) {
   const clientId = route.params?.clientId;
   const editando = Boolean(clientId);
 
@@ -48,8 +46,7 @@ export function ClientFormScreen({
   const [observacoes, setObservacoes] = useState("");
 
   const [salvando, setSalvando] = useState(false);
-  const [carregandoDados, setCarregandoDados] =
-    useState(editando);
+  const [carregandoDados, setCarregandoDados] = useState(editando);
 
   useEffect(() => {
     if (!clientId) {
@@ -83,9 +80,7 @@ export function ClientFormScreen({
         }
 
         if (!data) {
-          throw new Error(
-            "Cliente não encontrado ou você não possui acesso.",
-          );
+          throw new Error("Cliente não encontrado ou você não possui acesso.");
         }
 
         if (!componenteAtivo) {
@@ -132,14 +127,8 @@ export function ClientFormScreen({
       return;
     }
 
-    if (
-      emailFormatado &&
-      !emailValido(emailFormatado)
-    ) {
-      Alert.alert(
-        "E-mail inválido",
-        "Informe um endereço de e-mail válido.",
-      );
+    if (emailFormatado && !emailValido(emailFormatado)) {
+      Alert.alert("E-mail inválido", "Informe um endereço de e-mail válido.");
 
       return;
     }
@@ -215,14 +204,9 @@ export function ClientFormScreen({
   if (carregandoDados) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator
-          size="large"
-          color="#17a398"
-        />
+        <ActivityIndicator size="large" color="#17a398" />
 
-        <Text style={styles.loadingText}>
-          Carregando cliente...
-        </Text>
+        <Text style={styles.loadingText}>Carregando cliente...</Text>
       </View>
     );
   }
@@ -231,30 +215,21 @@ export function ClientFormScreen({
     <SafeAreaView style={styles.safeArea}>
       <KeyboardAvoidingView
         style={styles.keyboardContainer}
-        behavior={
-          Platform.OS === "ios"
-            ? "padding"
-            : undefined
-        }
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
         <ScrollView
           contentContainerStyle={styles.container}
           keyboardShouldPersistTaps="handled"
         >
           <Text style={styles.title}>
-            {editando
-              ? "Editar cliente"
-              : "Novo cliente"}
+            {editando ? "Editar cliente" : "Novo cliente"}
           </Text>
 
           <Text style={styles.description}>
-            Preencha as informações do cliente.
-            Somente o nome é obrigatório.
+            Preencha as informações do cliente. Somente o nome é obrigatório.
           </Text>
 
-          <Text style={styles.label}>
-            Nome completo *
-          </Text>
+          <Text style={styles.label}>Nome completo *</Text>
 
           <TextInput
             style={styles.input}
@@ -266,9 +241,7 @@ export function ClientFormScreen({
             editable={!salvando}
           />
 
-          <Text style={styles.label}>
-            Telefone ou WhatsApp
-          </Text>
+          <Text style={styles.label}>Telefone ou WhatsApp</Text>
 
           <TextInput
             style={styles.input}
@@ -294,9 +267,7 @@ export function ClientFormScreen({
             editable={!salvando}
           />
 
-          <Text style={styles.label}>
-            CPF ou CNPJ
-          </Text>
+          <Text style={styles.label}>CPF ou CNPJ</Text>
 
           <TextInput
             style={styles.input}
@@ -322,9 +293,7 @@ export function ClientFormScreen({
             editable={!salvando}
           />
 
-          <Text style={styles.label}>
-            Observações
-          </Text>
+          <Text style={styles.label}>Observações</Text>
 
           <TextInput
             style={styles.multilineInput}
@@ -339,10 +308,7 @@ export function ClientFormScreen({
           />
 
           <Pressable
-            style={[
-              styles.saveButton,
-              salvando && styles.buttonDisabled,
-            ]}
+            style={[styles.saveButton, salvando && styles.buttonDisabled]}
             onPress={salvarCliente}
             disabled={salvando}
           >
@@ -350,9 +316,7 @@ export function ClientFormScreen({
               <ActivityIndicator color="#ffffff" />
             ) : (
               <Text style={styles.saveButtonText}>
-                {editando
-                  ? "Salvar alterações"
-                  : "Cadastrar cliente"}
+                {editando ? "Salvar alterações" : "Cadastrar cliente"}
               </Text>
             )}
           </Pressable>
@@ -362,9 +326,7 @@ export function ClientFormScreen({
             onPress={() => navigation.goBack()}
             disabled={salvando}
           >
-            <Text style={styles.cancelButtonText}>
-              Cancelar
-            </Text>
+            <Text style={styles.cancelButtonText}>Cancelar</Text>
           </Pressable>
         </ScrollView>
       </KeyboardAvoidingView>

@@ -1,50 +1,44 @@
-import {
-  Alert,
-  Pressable,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
-
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import type { Session } from "@supabase/supabase-js";
-import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 
-import { supabase } from "../lib/supabase";
-import type { RootStackParamList } from "../navigation/types";
+import type { MainTabParamList } from "../navigation/types";
 
-type HomeScreenProps = NativeStackScreenProps<RootStackParamList, "Home"> & {
+type HomeScreenProps = BottomTabScreenProps<MainTabParamList, "Inicio"> & {
   session: Session;
 };
 
-export function HomeScreen({ navigation, session }: HomeScreenProps) {
-  async function sair() {
-    const { error } = await supabase.auth.signOut();
-
-    if (error) {
-      Alert.alert("Erro", "Não foi possível encerrar a sessão.");
-    }
-  }
-
-  function abrirClientes() {
-    navigation.navigate("Clientes");
-  }
-
+export function HomeScreen({ session, navigation }: HomeScreenProps) {
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView style={styles.safeArea} edges={["top"]}>
       <View style={styles.container}>
-        <Text style={styles.title}>Dashboard</Text>
-
-        <Text style={styles.welcome}>Usuário conectado:</Text>
+        <Text style={styles.greeting}>Bem-vindo</Text>
 
         <Text style={styles.email}>{session.user.email}</Text>
 
-        <Pressable style={styles.primaryButton} onPress={abrirClientes}>
-          <Text style={styles.primaryButtonText}>Gerenciar clientes</Text>
+        <Text style={styles.title}>O que deseja fazer?</Text>
+
+        <Pressable
+          style={styles.card}
+          onPress={() => navigation.navigate("Clientes")}
+        >
+          <Text style={styles.cardTitle}>Clientes</Text>
+
+          <Text style={styles.cardDescription}>
+            Consulte, cadastre e edite seus clientes.
+          </Text>
         </Pressable>
 
-        <Pressable style={styles.logoutButton} onPress={sair}>
-          <Text style={styles.logoutButtonText}>Sair da conta</Text>
+        <Pressable
+          style={styles.card}
+          onPress={() => navigation.navigate("Servicos")}
+        >
+          <Text style={styles.cardTitle}>Serviços</Text>
+
+          <Text style={styles.cardDescription}>
+            Organize os serviços utilizados nos orçamentos.
+          </Text>
         </Pressable>
       </View>
     </SafeAreaView>
@@ -60,56 +54,48 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 24,
-    justifyContent: "center",
   },
 
-  title: {
+  greeting: {
     color: "#16324f",
-    fontSize: 32,
+    fontSize: 30,
     fontWeight: "800",
-  },
-
-  welcome: {
-    color: "#60727a",
-    fontSize: 16,
-    marginTop: 12,
   },
 
   email: {
     color: "#17a398",
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: "700",
     marginTop: 4,
     marginBottom: 32,
   },
 
-  primaryButton: {
-    height: 56,
-    backgroundColor: "#17a398",
-    borderRadius: 14,
-    alignItems: "center",
-    justifyContent: "center",
+  title: {
+    color: "#263238",
+    fontSize: 18,
+    fontWeight: "800",
+    marginBottom: 16,
   },
 
-  primaryButtonText: {
-    color: "#ffffff",
-    fontSize: 16,
+  card: {
+    backgroundColor: "#ffffff",
+    borderWidth: 1,
+    borderColor: "#d7e0e3",
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 14,
+  },
+
+  cardTitle: {
+    color: "#16324f",
+    fontSize: 18,
     fontWeight: "800",
   },
 
-  logoutButton: {
-    height: 52,
-    borderWidth: 1,
-    borderColor: "#16324f",
-    borderRadius: 14,
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 16,
-  },
-
-  logoutButtonText: {
-    color: "#16324f",
-    fontSize: 16,
-    fontWeight: "700",
+  cardDescription: {
+    color: "#60727a",
+    fontSize: 14,
+    lineHeight: 21,
+    marginTop: 6,
   },
 });
