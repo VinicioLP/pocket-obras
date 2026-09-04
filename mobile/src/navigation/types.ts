@@ -42,4 +42,12 @@ export type RootStackParamList = {
 
   Cobrancas: undefined;
   CobrancaFormulario: undefined;
+
+  CobrancaDetalhes: {
+    receivableId: string;
+  };
+
+  PagamentoFormulario: {
+    receivableId: string;
+  };
 };

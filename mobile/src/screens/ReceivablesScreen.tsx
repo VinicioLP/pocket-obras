@@ -303,7 +303,19 @@ export function ReceivablesScreen({ navigation }: ScreenProps) {
           const status = statusConfig[displayStatus];
 
           return (
-            <View style={styles.receivableCard}>
+            <Pressable
+              style={({ pressed }) => [
+                styles.receivableCard,
+                pressed && {
+                  opacity: 0.75,
+                },
+              ]}
+              onPress={() =>
+                navigation.navigate("CobrancaDetalhes", {
+                  receivableId: item.id,
+                })
+              }
+            >
               <View style={styles.cardHeader}>
                 <View style={styles.cardTitleArea}>
                   <Text style={styles.clientName}>
@@ -345,7 +357,7 @@ export function ReceivablesScreen({ navigation }: ScreenProps) {
                   Parcela {item.installment_number}/{item.installment_total}
                 </Text>
               </View>
-            </View>
+            </Pressable>
           );
         }}
       />

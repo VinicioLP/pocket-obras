@@ -17,6 +17,8 @@ import { BudgetItemFormScreen } from "../screens/BudgetItemFormScreen";
 import { BudgetDetailsScreen } from "../screens/BudgetDetailsScreen";
 import { ReceivablesScreen } from "../screens/ReceivablesScreen";
 import { ReceivableFormScreen } from "../screens/ReceivableFormScreen";
+import { ReceivableDetailsScreen } from "../screens/ReceivableDetailsScreen";
+import { PaymentFormScreen } from "../screens/PaymentFormScreen";
 
 import type { MainTabParamList, RootStackParamList } from "./types";
 
@@ -235,6 +237,22 @@ export function AppNavigator({ session }: AppNavigatorProps) {
           component={ReceivableFormScreen}
           options={{
             title: "Nova cobrança",
+          }}
+        />
+
+        <RootStack.Screen
+          name="CobrancaDetalhes"
+          component={ReceivableDetailsScreen}
+          options={{
+            title: "Detalhes da cobrança",
+          }}
+        />
+
+        <RootStack.Screen
+          name="PagamentoFormulario"
+          component={PaymentFormScreen}
+          options={{
+            title: "Registrar pagamento",
           }}
         />
       </RootStack.Navigator>
