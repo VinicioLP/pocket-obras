@@ -9,6 +9,8 @@ import express, {
 
 import helmet from "helmet";
 
+import { budgetRoutes } from "./routes/budgetRoutes";
+
 const app = express();
 
 const port = Number(process.env.PORT) || 3000;
@@ -20,6 +22,8 @@ app.use(helmet());
 app.use(
   cors({
     origin: "*",
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   }),
 );
 
@@ -36,6 +40,8 @@ app.get("/health", (_request: Request, response: Response) => {
     timestamp: new Date().toISOString(),
   });
 });
+
+app.use("/budgets", budgetRoutes);
 
 app.use((_request: Request, response: Response) => {
   response.status(404).json({
