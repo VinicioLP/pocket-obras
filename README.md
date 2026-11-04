@@ -69,9 +69,11 @@ Crie ou edite o arquivo `api/.env`:
 
 ```env
 PORT=3000
+SUPABASE_URL=https://seu-projeto.supabase.co
+SUPABASE_PUBLISHABLE_KEY=sua-chave-publicavel
 ```
 
-A API utiliza a porta `3000` por padrão. Caso novas rotas passem a utilizar o Supabase diretamente, suas credenciais devem permanecer somente no backend.
+A API utiliza a porta `3000` por padrão e Node.js 24. Copie `api/.env.example` para `api/.env` e preencha os valores do seu projeto. Ela consulta o Supabase com a chave publicável e o token do usuário, preservando as políticas RLS; não use `service_role`.
 
 ## Instalação
 
@@ -177,6 +179,27 @@ await fetch("http://localhost:3000/rota", {
 O token deve ser validado no backend. Não confie apenas na leitura ou decodificação do token no aplicativo mobile.
 
 ## Status do projeto
+
+### API de orçamentos
+
+| Método e rota | Autenticação | Resultado |
+| --- | --- | --- |
+| `GET /health` | Pública | Status do servidor |
+| `GET /budgets/:budgetId/pdf` | `Authorization: Bearer <access_token>` | PDF para download |
+
+A rota de PDF consulta `budgets`, `clients` e `budget_items` existentes no Supabase. As tabelas devem ter permissões e políticas RLS que permitam a cada usuário consultar somente seus próprios registros. Um orçamento ausente ou oculto por RLS retorna `404`; token ausente, inválido ou expirado retorna `401`; UUID inválido retorna `400`. O PDF usa `Cache-Control: private, no-store`.
+
+Execute `npm test` dentro de `api` para verificar as rotas, autenticação, download e erros de entrada. Os testes usam servidores HTTP locais no lugar do Supabase remoto; eles não comprovam as políticas RLS do banco real.
+
+### Publicação da API no Render
+
+O `render.yaml` na raiz configura um Web Service chamado `pocket-obras-api`, com instalação, testes e compilação antes de iniciar, além de verificação em `/health`.
+
+1. No Render, crie um Blueprint a partir deste repositório e selecione a branch com o arquivo `render.yaml`.
+2. Preencha `SUPABASE_URL` e `SUPABASE_PUBLISHABLE_KEY` quando solicitado.
+3. Depois da publicação, confira `https://<seu-servico>.onrender.com/health` e teste o PDF com uma sessão válida.
+
+Configuração baseada na [referência de Blueprints do Render](https://render.com/docs/blueprint-spec). O arquivo prepara o deploy; enviar ao GitHub não cria o serviço automaticamente. A integração do botão de download/compartilhamento no aplicativo mobile continua pendente.
 
 O Pocket Obras está em desenvolvimento como parte de um Trabalho de Conclusão de Curso. O projeto poderá receber novas funcionalidades, melhorias de usabilidade e ajustes técnicos durante sua evolução.
 

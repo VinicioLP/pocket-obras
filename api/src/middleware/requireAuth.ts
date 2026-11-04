@@ -18,9 +18,10 @@ export async function requireAuth(
       return;
     }
 
-    const [scheme, accessToken] = authorization.split(" ");
+    const match = /^Bearer ([^\s]+)$/i.exec(authorization);
+    const accessToken = match?.[1];
 
-    if (scheme?.toLowerCase() !== "bearer" || !accessToken) {
+    if (!accessToken) {
       response.status(401).json({
         error: "Token de autenticação inválido.",
       });
