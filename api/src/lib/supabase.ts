@@ -10,6 +10,14 @@ function getEnvironmentVariable(name: string) {
   return value;
 }
 
+export function createDiaryServerClient(): SupabaseClient {
+  return createClient(
+    getEnvironmentVariable("SUPABASE_URL"),
+    getEnvironmentVariable("SUPABASE_SERVICE_ROLE_KEY"),
+    { auth: { persistSession: false, autoRefreshToken: false } },
+  );
+}
+
 export function createUserSupabaseClient(accessToken: string): SupabaseClient {
   const supabaseUrl = getEnvironmentVariable("SUPABASE_URL");
 

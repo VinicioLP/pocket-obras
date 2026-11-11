@@ -10,6 +10,7 @@ import express, {
 import helmet from "helmet";
 
 import { budgetRoutes } from "./routes/budgetRoutes";
+import { diaryRoutes } from "./routes/diaryRoutes";
 
 const app = express();
 
@@ -23,7 +24,7 @@ app.use(
   cors({
     origin: "*",
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Diary-Metadata"],
   }),
 );
 
@@ -42,6 +43,7 @@ app.get("/health", (_request: Request, response: Response) => {
 });
 
 app.use("/budgets", budgetRoutes);
+app.use("/diario", diaryRoutes);
 
 app.use((_request: Request, response: Response) => {
   response.status(404).json({
@@ -63,7 +65,7 @@ app.use(
       return;
     }
     if (type === "entity.too.large") {
-      response.status(413).json({ error: "Corpo da requisição excede o limite de 1 MB." });
+      response.status(413).json({ error: "Corpo da requisição excede o limite permitido." });
       return;
     }
     console.error(error);
